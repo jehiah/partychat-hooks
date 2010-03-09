@@ -152,16 +152,17 @@ class SetupHandler(webapp.RequestHandler):
         self.load(jid)
 
     def load(self, jid):
-        q = Hook.all()
-        q.filter('jid =', jid)
-        hook = q.get()
-        if not hook:
-            hook = Hook(token=unicode(uuid.uuid4()), jid=jid)
-            if self.request.get('format',''):
-                hook.format = self.request.get('format')
-                if len(hook.format) > 512:
-                    return self.response.out.write('format is too long')
-            hook.put()
+        # q = Hook.all()
+        # q.filter('jid =', jid)
+        # hook = q.get()
+        # if not hook:
+        # always create a new hook
+        hook = Hook(token=unicode(uuid.uuid4()), jid=jid)
+        if self.request.get('format',''):
+            hook.format = self.request.get('format')
+            if len(hook.format) > 512:
+                return self.response.out.write('format is too long')
+        hook.put()
         self.response.headers['Content-type'] = 'text/plain'
         self.response.out.write('''
         
