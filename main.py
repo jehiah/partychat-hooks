@@ -31,8 +31,9 @@ class EditHook(webapp.RequestHandler):
     <p>Edit Hook</p>
     <form method="post" action="/edit/%(token)s">
     <label>jid:<input type="text" name="jid" size="40" value="%(jid)s"></label><br/>
-    <label>format:<input type="text" name="format" size="80" value="%(format)s"></label><br/>
     <label>chat room alias:<input type="text" name="alias" size="20" value="%(alias)s"></label><br/>
+    <label>format:<br/>
+    <textarea cols="60" name="format" rows="5">%(format)s</textarea><br/>
     <button type="submit">Update Hook</button>
     </form>
     </body>
