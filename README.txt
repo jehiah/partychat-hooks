@@ -2,7 +2,7 @@ partychat-hooks
 ===============
 
 Partychat-hooks is a Google AppEngine application that provides
-http receive and send endpoints for partychat <http://partychapp.appspot.com/>
+http receive and send endpoints for partychat http://partychapp.appspot.com/
 
  * create a http endpoint that posts into a XMMP conversation
  * sends messages received from a XMMP conversation to a http endpoint
@@ -23,4 +23,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>
+along with this program.  If not, see http://www.gnu.org/licenses/

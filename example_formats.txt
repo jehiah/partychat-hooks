@@ -3,7 +3,14 @@
 
 {{get_argument('author')}} committed: {{get_argument('log')}}
 
-http://{{get_argument('company')}}.trac.cvsdude.com/ {{get_argument('project')}}/changeset/{{get_argument('youngest')}} 
+http://{{get_argument('company')}}.trac.cvsdude.com/{{get_argument('project')}}/changeset/{{get_argument('youngest')}} 
 == Files Changed ==
 {{get_argument('changed')}}
 
+# github Post-Receive hook 
+# for more info on format see <http://help.github.com/post-receive-hooks/>
+
+{% for commit in post_json.get("commits") %}
+{{commit.get('url')}}
+{{commit.get('author').get('name')}} committed: {{commit.get('message')}}
+{% end %}
