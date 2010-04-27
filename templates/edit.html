@@ -3,7 +3,7 @@
 <style>
 .format{
     width:100%;
-    height:80px;
+    height:90px;
 }
 .post_hook{
     border-left:5px solid #000;
@@ -13,6 +13,9 @@ code{
     color:#333;
     border:1px solid #c0c0c0;
     background-color:#f0f0f0;
+}
+.bot {
+    color:#0b0;
 }
 .example{
     font-size:12px;
@@ -24,8 +27,10 @@ code{
     <h2>Edit Hook</h2>
     
     <p>
-        JID: {{escape(jid.jid)}}<br/>
         Created: {{escape(jid.created.strftime("%Y/%m/%d"))}}<br/>
+        JID: {{escape(jid.jid)}}<br/>
+        HOOK ID: <span class="bot">{{escape(jid.token)}}@partychat-hooks.appspotchat.com</span><br/>
+        <em>(invite this hook to your chat room)</em><br/>
     </p>
     
 
@@ -52,7 +57,8 @@ code{
         <div class="post_hook">
             HTTP Endpoint: <strong><code>http://partychat-hooks.appspot.com/post/{{escape(post_hook.token)}}</code></strong><br/>
             <form method="POST" action="/edit/{{escape(jid.token)}}">
-                <p class="example">Use Tornado Template Style. Request variables are available as <code>request.get_argument("field")</code></p>
+                <input type="hidden" value="{{escape(post_hook.token)}}" name="token">
+                <p class="example">Use Tornado Template Style. Request variables are available as <code>get_argument("field")</code></p>
                 <p class="example">If POST body is json content, it will be available as <code>post_json</code></p>
                 <textarea name="format" class="format">{{escape(post_hook.format)}}</textarea><br/>
                 <button type="submit" name="action.update_post_hook" value="1">Update Format</button>

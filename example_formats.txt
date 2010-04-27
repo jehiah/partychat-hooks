@@ -1,0 +1,9 @@
+
+# cvsdude post-commit hook
+
+{{get_argument('author')}} committed: {{get_argument('log')}}
+
+http://{{get_argument('company')}}.trac.cvsdude.com/ {{get_argument('project')}}/changeset/{{get_argument('youngest')}} 
+== Files Changed ==
+{{get_argument('changed')}}
+

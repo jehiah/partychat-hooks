@@ -4,6 +4,7 @@ import urllib
 
 import tornado.web
 import tornado.escape
+import tornado.template
 
 from google.appengine.api import users
 # from google.appengine.ext import db
@@ -87,7 +88,7 @@ class EditHook(BaseHandler):
 
     @authenticated
     def post(self, token):
-        obj = lib.get_token(token)
+        obj = lib.get_token(token, self.current_user)
         if not obj:
             raise tornado.web.HTTPError(404)
         if self.get_argument('action.update_alias', None):
@@ -103,10 +104,27 @@ class EditHook(BaseHandler):
                 jid=obj
             )
             t.put()
+        if self.get_argument('action.update_post_hook', None):
+            hook_token = self.get_argument('token')
+            if hook_token.startswith('P_'):
+                t = lib.get_token(hook_token, self.current_user)
+                if t:
+                    t.format = self.get_argument('format')
+                    t.put()
         
         self.redirect('/edit/' + obj.token)
 
 class PostHook(BaseHandler):
+    def render_string(self, format, **kwargs):
+        args = dict(
+            request=self.request,
+            get_argument=self.get_argument,
+        )
+        args.update(self.ui)
+        args.update(kwargs)
+        t = tornado.template.Template(format)
+        return t.generate(**args)
+        
     def get(self, token):
         if not token.startswith('P_'):
             raise tornado.web.HTTPError(404)

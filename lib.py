@@ -4,6 +4,7 @@ import model
 import base64
 import logging
 from google.appengine.api import xmpp
+from google.appengine.ext import db
 
 def get_new_token(token_type):
     if token_type is 'post':
@@ -17,7 +18,7 @@ def get_new_token(token_type):
     token = prefix + base64.b64encode(str(uuid.uuid4()))[:8]
     return token
 
-def get_token(token):
+def get_token(token, user=None):
     if token.startswith('P_'):
         q = model.PostHook.all()
     elif token.startswith('H_'):
@@ -27,7 +28,14 @@ def get_token(token):
     else:
         raise Exception('invalid token %s' % str(token))
     q.filter('token =', token)
-    return q.get()
+    obj = q.get()
+    if obj and user:
+        # match that this user has ownership
+        if token.startswith('H_') and obj.user != user:
+            return
+        elif not token.startswith('H_') and obj.jid.user != user:
+            return
+    return obj
     
 def get_user_jids(username):
     q = model.JID.all()
