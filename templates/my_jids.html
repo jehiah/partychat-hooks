@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <h1>My Hooks</h1>
+
+    {% if not user_jids %}
+        <p>You do not have any hooks. <a href="/add">Add A Hook</a></p>
+    {% else %}
+    
+    <p><a href="/add">Add Another Hook</a></p>
+    
+    <ul>
+        {% for jid in user_jids %}
+            <li><a href="/edit/{{jid.token}}">{{escape(jid.token)}}</a> - {{escape(jid.jid)}} 
+                {% if jid.alias %}/alias {{escape(jid.alias)}} {% end %}</li>
+        {% end %}
+    </ul>
+    {% end %}
+{% end %}

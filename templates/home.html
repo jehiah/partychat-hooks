@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1>Partychat - hooks</h1>
+
+<p>Partychat-hooks is a Google AppEngine application that provides
+http receive and send endpoints for partychat <a href="http://partychapp.appspot.com/">http://partychapp.appspot.com/</a></p>
+
+<ul>
+<li>create a http endpoint that posts into a XMMP conversation</li>
+<li>sends messages received from a XMMP conversation to a http endpoint</li>
+</ul>
+</p>
+
+<p>To create or edit partychat hooks, {{ _('<a href="%(url)s">Sign in</a>') % {"url": escape(handler.get_login_url())} }}</p>
+
+{% end %}
