@@ -69,13 +69,13 @@ class BaseHandler(tornado.web.RequestHandler):
         user = users.get_current_user()
         if user: user.administrator = users.is_current_user_admin()
         return user
-
+    
     def get_login_url(self):
         return users.create_login_url(self.request.uri)
-
+    
     def get_logout_url(self):
         return users.create_logout_url(self.request.uri)
-
+    
     def render_string(self, template_name, **kwargs):
         # Let the templates access the users module to generate login URLs
         return tornado.web.RequestHandler.render_string(
@@ -103,18 +103,18 @@ class AddJID(BaseHandler):
             token=token)
         obj.put()
         self.redirect('/edit/' + token)
-        
+
 class EditHook(BaseHandler):
     @authenticated
     def get(self, token):
         if not token.startswith('H_'):
             raise tornado.web.HTTPError(404)
-            
+        
         obj = lib.lookup_token(token)
         if not obj:
             raise tornado.web.HTTPError(404)
         self.render('edit.html', jid=obj)
-
+    
     @authenticated
     def post(self, token):
         obj = lib.lookup_token(token, self.current_user)
@@ -177,26 +177,25 @@ class PostHook(BaseHandler):
         args.update(kwargs)
         t = tornado.template.Template(format)
         return t.generate(**args)
-        
+    
     def get(self, token):
         if not token.startswith('P_'):
             raise tornado.web.HTTPError(404)
         obj = lib.lookup_token(token)
         if not obj or not obj.active:
             raise tornado.web.HTTPError(404)
-
+        
         msg = self.render_string(obj.format, post_json=None)
         lib.send(obj.jid, msg)
-            
+    
     def post(self, token):
         if not token.startswith('P_'):
             raise tornado.web.HTTPError(404)
         obj = lib.lookup_token(token)
         if not obj or not obj.active:
             raise tornado.web.HTTPError(404)
-
+        
         msg = self.render_string(obj.format, json_decode = tornado.escape.json_decode)
         lib.send(obj.jid, msg)
-        
         
         

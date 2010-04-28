@@ -43,12 +43,12 @@ def lookup_token(token, user=None):
         elif not token.startswith('H_') and obj.jid.user != user:
             return
     return obj
-    
+
 def get_user_jids(username):
     q = model.JID.all()
     q.filter('user =', username)
     return q.fetch(50)
-    
+
 def send(jid, msg):
     from_address = '%s@partychat-hooks.appspotchat.com' % jid.token
     try:
