@@ -33,15 +33,16 @@ class XMPPHandler(tornado.web.RequestHandler):
     def post(self):
         # stanza = self.get_argument('stanza')
         from_addr = self.get_argument('from')
-        to_addr = self.get_argument('to')
+        to_addr = self.get_argument('to').lower()
         body = self.get_argument('body')
-        logging.info('got message %s' % body)
+        logging.info('got message %s from %s to %s' % (body, from_addr, to_addr))
         # message = xmpp.Message({'from' : from_addr, 'to' : to_addr, 'body' : body})
         
         token = to_addr.split('@',1)[0]
         try:
             jid = lib.lookup_token(token)
         except:
+            logging.info('no jid found for %s' % token)
             return self.finish('RECEIVE HOOK NOT FOUND')
         
         for receive_hook in jid.receivehook_set:
@@ -55,12 +56,16 @@ class XMPPHandler(tornado.web.RequestHandler):
                 try:
                     urlfetch.fetch(
                         receive_hook.endpoint,
+                        method='POST',
                         payload=data,
                         headers = {'Content-Type' : 'application/x-www-form-urlencoded'},
                         follow_redirects=False
                         )
+                    logging.info('send to %s' % receive_hook.endpoint)
                 except:
                     logging.exception('failed writing to %s for %s with data %s' % (receive_hook.endpoint, receive_hook.token, data))
+            else:
+                logging.info('no command match for %s against %s' % (repr(receive_hook.command), repr(body)))
         self.finish('DONE')
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -107,7 +112,7 @@ class AddJID(BaseHandler):
 class EditHook(BaseHandler):
     @authenticated
     def get(self, token):
-        if not token.startswith('H_'):
+        if not token.startswith('h_'):
             raise tornado.web.HTTPError(404)
         
         obj = lib.lookup_token(token)
