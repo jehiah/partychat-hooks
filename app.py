@@ -195,14 +195,7 @@ class PostHook(BaseHandler):
         if not obj or not obj.active:
             raise tornado.web.HTTPError(404)
 
-        post_json = None
-        try:
-            if self.request.body:
-                post_json = tornado.escape.json_decode(self.request.body)
-        except:
-            logging.info('unable to load json from post body')
-            
-        msg = self.render_string(obj.format, post_json = post_json)
+        msg = self.render_string(obj.format, json_decode = tornado.escape.json_decode)
         lib.send(obj.jid, msg)
         
         
