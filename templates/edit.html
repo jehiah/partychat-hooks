@@ -72,8 +72,7 @@ code{
             HTTP Endpoint: <strong><code>http://partychat-hooks.appspot.com/post/{{escape(post_hook.token)}}</code></strong><br/>
             <form method="POST" action="/edit/{{escape(jid.token)}}">
                 <input type="hidden" value="{{escape(post_hook.token)}}" name="token">
-                <p class="example">Use Tornado Template Style. Request variables are available as <code>get_argument("field")</code></p>
-                <p class="example">If POST body is json content, it will be available as <code>post_json</code></p>
+                <p class="example">Uses Tornado Template Style. Request variables are available as <code>get_argument("field")</code>. <a href="http://github.com/jehiah/partychat-hooks/blob/master/example_formats.txt">more examples &rarr;</a></p>
                 <textarea name="format" class="format">{{escape(post_hook.format)}}</textarea><br/>
                 <button type="submit" name="action.update_post_hook" value="1">Update Format</button>
             </form>

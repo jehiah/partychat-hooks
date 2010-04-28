@@ -1,16 +1,39 @@
+Example formats
 
-# cvsdude post-commit hook
+generic http
+============
 
+[request]
+http://partychat-hooks.appsot.com/post/P_EW14YTla?message=this+will+get+posted+to+the+partychat
+[/request]
+    
+[format]
+{{get_argument("message")}}
+[/format]
+
+cvsdude.com 
+===========
+
+svn post-commit hook
+
+[format]
 {{get_argument('author')}} committed: {{get_argument('log')}}
 
 http://{{get_argument('company')}}.trac.cvsdude.com/{{get_argument('project')}}/changeset/{{get_argument('youngest')}} 
 == Files Changed ==
 {{get_argument('changed')}}
+[/format]
 
-# github Post-Receive hook 
-# for more info on format see <http://help.github.com/post-receive-hooks/>
+github.com 
+==========
 
-{% for commit in post_json.get("commits") %}
+github Post-Receive hook for more info on format see <http://help.github.com/post-receive-hooks/>
+
+[format]
+{% if get_argument("payload") %}
+{% for commit in json_decode(get_argument("payload")).get("commits") %}
 {{commit.get('url')}}
 {{commit.get('author').get('name')}} committed: {{commit.get('message')}}
 {% end %}
+{% end %}
+[/format]
