@@ -20,12 +20,18 @@ code{
 .example{
     font-size:12px;
 }
+.active {
+    color:#0b0;
+}
+.inactive {
+    color:#f00;
+}
 </style>
 {% end %}
 {% block body %}
 
-    <h2>Edit Hook</h2>
-    
+    <h2>Edit {{escape(jid.token)}}</h2>
+    <p><a href="/">All My Hooks</a></p>
     <p>
         Created: {{escape(jid.created.strftime("%Y/%m/%d"))}}<br/>
         JID: {{escape(jid.jid)}}<br/>
@@ -47,7 +53,7 @@ code{
     
     <hr>
     <h3>Post Hooks</h3>
-    <p>These HTTP Endpoints will post data to the JID chat session</p>
+    <p>These HTTP Endpoints will post data to the XMMP chat session</p>
 
     <form method="POST" action="/edit/{{escape(jid.token)}}">
         <button type="submit" name="action.new_post_hook" value="1">New Post Hook</button>
@@ -55,6 +61,14 @@ code{
 
     {% for post_hook in jid.posthook_set.fetch(100) %}
         <div class="post_hook">
+            <form method="POST" action="/edit/{{escape(jid.token)}}">
+            Active: 
+            {% if post_hook.active %}
+                <span class="active">YES</span> <button type="submit" name="action.deactivate" value="{{post_hook.token}}">Deactivate</button>
+            {% else %}
+                <span class="inactive">NO</span> <button type="submit" name="action.activate" value="{{post_hook.token}}">Activate</button>
+            {% end %}
+            </form>
             HTTP Endpoint: <strong><code>http://partychat-hooks.appspot.com/post/{{escape(post_hook.token)}}</code></strong><br/>
             <form method="POST" action="/edit/{{escape(jid.token)}}">
                 <input type="hidden" value="{{escape(post_hook.token)}}" name="token">
@@ -65,5 +79,37 @@ code{
             </form>
         </div>
     {% end %}
+    
+    <hr>
+    <h3>Receive Hooks</h3>
+    <p>These HTTP Endpoints will receive a copy of data from the XMMP chat session</p>
+    
+    <form method="POST" action="/edit/{{escape(jid.token)}}">
+        <button type="submit" name="action.new_receive_hook" value="1">New Receive Hook</button>
+    </form>
+
+    {% for receive_hook in jid.receivehook_set.fetch(100) %}
+        <div class="post_hook">
+            <form method="POST" action="/edit/{{escape(jid.token)}}">
+            Active: 
+            {% if receive_hook.active %}
+                <span class="active">YES</span> <button type="submit" name="action.deactivate" value="{{receive_hook.token}}">Deactivate</button>
+            {% else %}
+                <span class="inactive">NO</span> <button type="submit" name="action.activate" value="{{receive_hook.token}}">Activate</button>
+            {% end %}
+            </form>
+            <form method="POST" action="/edit/{{escape(jid.token)}}">
+                <input type="hidden" value="{{escape(receive_hook.token)}}" name="token">
+                <label>Command sequence to match against. 
+                    <em>ie: send messages that start with <code>/todo</code></em><br/>
+                <input type="text" name="command" value="{{escape(receive_hook.command)}}" size="30"></label><br/>
+                <label>HTTP Endpoint <em>partychat will make a <code>HTTP POST</code> with the variable <code>from</code> and <code>body</code></em><br/>
+                <input type="text" name="endpoint" value="{{escape(receive_hook.endpoint)}}" size="100"></label><br/>
+                
+                <button type="submit" name="action.update_receive_hook" value="1">Update Receive Hook</button>
+            </form>
+        </div>
+    {% end %}
+    
     
 {% end %}

@@ -1,10 +1,10 @@
+import os
 import tornado.web
 import tornado.wsgi
 import wsgiref.handlers
-import os
 
+# application imports
 import app
-
 
 class Application(tornado.wsgi.WSGIApplication):
     def __init__(self):
@@ -13,11 +13,11 @@ class Application(tornado.wsgi.WSGIApplication):
             "debug" : True
         }
         handlers = [
-            (r"/", app.MainHandler),
+            (r"^/$", app.MainHandler),
             (r'/_ah/xmpp/message/chat/', app.XMPPHandler),
             (r'^/add$', app.AddJID),
-            (r'^/edit/([^/]*)$', app.EditHook),
-            (r'^/post/([^/]*)$', app.PostHook),
+            (r'^/edit/(H_[^/]*)$', app.EditHook),
+            (r'^/post/(P_[^/]*)$', app.PostHook),
         ]
         tornado.wsgi.WSGIApplication.__init__(self, handlers, **app_settings)
         

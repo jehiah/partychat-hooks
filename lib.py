@@ -3,8 +3,15 @@ import uuid
 import model
 import base64
 import logging
+import re
 from google.appengine.api import xmpp
-from google.appengine.ext import db
+
+def match_command(command, body):
+    if command == '*' or \
+        body.startswith(command) or \
+        re.findall('^\[[^\]]+\]\s%s' % re.escape(command), body):
+        return True
+    return False
 
 def get_new_token(token_type):
     if token_type is 'post':
@@ -18,7 +25,7 @@ def get_new_token(token_type):
     token = prefix + base64.b64encode(str(uuid.uuid4()))[:8]
     return token
 
-def get_token(token, user=None):
+def lookup_token(token, user=None):
     if token.startswith('P_'):
         q = model.PostHook.all()
     elif token.startswith('H_'):

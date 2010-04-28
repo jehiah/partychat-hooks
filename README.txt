@@ -1,11 +1,19 @@
-partychat-hooks
+Partychat-Hooks
 ===============
 
-Partychat-hooks is a Google AppEngine application that provides
-http receive and send endpoints for partychat http://partychapp.appspot.com/
+http://partychat-hooks.appspot.com/
 
- * create a http endpoint that posts into a XMMP conversation
- * sends messages received from a XMMP conversation to a http endpoint
+Partychat-Hooks is a Google AppEngine application that provides
+http post and receive endpoints for partychat http://partychapp.appspot.com/
+
+ * creates a http endpoint that posts into a partychat XMMP conversation
+ * sends messages received from a partychat XMMP conversation to a http endpoint
+
+Development
+===========
+
+To run, place a copy of tornado inside the top level directory
+http://www.tornadoweb.org/
 
 License
 =======
@@ -24,3 +32,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/
+
