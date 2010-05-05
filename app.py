@@ -140,7 +140,7 @@ class EditHook(BaseHandler):
             t.put()
         elif self.get_argument('action.update_post_hook', None):
             hook_token = self.get_argument('token')
-            if hook_token.startswith('P_'):
+            if hook_token.lower().startswith('p_'):
                 t = lib.lookup_token(hook_token, self.current_user)
                 if t:
                     t.format = self.get_argument('format')
@@ -152,7 +152,7 @@ class EditHook(BaseHandler):
             t.put()
         elif self.get_argument('action.update_receive_hook', None):
             hook_token = self.get_argument('token')
-            if hook_token.startswith('R_'):
+            if hook_token.lower().startswith('r_'):
                 t = lib.lookup_token(hook_token, self.current_user)
                 if t:
                     t.endpoint = self.get_argument('endpoint')
@@ -184,7 +184,7 @@ class PostHook(BaseHandler):
         return t.generate(**args)
     
     def get(self, token):
-        if not token.startswith('P_'):
+        if not token.lower().startswith('p_'):
             raise tornado.web.HTTPError(404)
         obj = lib.lookup_token(token)
         if not obj or not obj.active:
@@ -194,7 +194,7 @@ class PostHook(BaseHandler):
         lib.send(obj.jid, msg)
     
     def post(self, token):
-        if not token.startswith('P_'):
+        if not token.lower().startswith('p_'):
             raise tornado.web.HTTPError(404)
         obj = lib.lookup_token(token)
         if not obj or not obj.active:

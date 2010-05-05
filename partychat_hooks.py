@@ -17,7 +17,7 @@ class Application(tornado.wsgi.WSGIApplication):
             (r'/_ah/xmpp/message/chat/', app.XMPPHandler),
             (r'^/add$', app.AddJID),
             (r'^/edit/(h_[^/]*)$', app.EditHook),
-            (r'^/post/(P_[^/]*)$', app.PostHook),
+            (r'^/post/([pP]_[^/]*)$', app.PostHook),
         ]
         tornado.wsgi.WSGIApplication.__init__(self, handlers, **app_settings)
         
