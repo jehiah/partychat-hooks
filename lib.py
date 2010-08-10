@@ -50,6 +50,8 @@ def get_user_jids(username):
     return q.fetch(50)
 
 def send(jid, msg):
+    if not msg or not msg.strip():
+        return False
     from_address = '%s@partychat-hooks.appspotchat.com' % jid.token.lower()
     try:
         output = xmpp.send_message(jid.jid, msg, from_address)
