@@ -46,6 +46,10 @@ class XMPPHandler(tornado.web.RequestHandler):
             logging.info('no jid found for %s' % token)
             return self.finish('RECEIVE HOOK NOT FOUND')
         
+        if not jid:
+            logging.info('jid requested, but not found for %s' % token)
+            return self.finish('RECEIVE HOOK NOT FOUND')
+        
         for receive_hook in jid.receivehook_set:
             if receive_hook.endpoint == 'http://example.com/api/receive_endpoint':
                 # skip default

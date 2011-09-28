@@ -7,7 +7,7 @@ jehiah-test@partychapp.appspotchat.com/bot
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: form-data; name="to"
 
-h_nmqzogfi@partychat-hooks.appspotchat.com
+h_zwzknjg0@partychat-hooks.appspotchat.com
 ------=_Part_837529_22096737.1272429593698
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: form-data; name="body"
@@ -17,5 +17,5 @@ Content-Disposition: form-data; name="body"
 Content-Type: text/xml; charset="UTF-8"
 Content-Disposition: form-data; name="stanza"
 
-<cli:message type="chat" from="jehiah-test@partychapp.appspotchat.com/bot" to="h_nmqzogfi@partychat-hooks.appspotchat.com" xmlns:cli="jabber:client"><cli:body>[jehiah] testing tornado mutlipart/form-data handling</cli:body></cli:message>
+<cli:message type="chat" from="jehiah-test@partychapp.appspotchat.com/bot" to="h_zwzknjg0@partychat-hooks.appspotchat.com" xmlns:cli="jabber:client"><cli:body>[jehiah] testing tornado mutlipart/form-data handling</cli:body></cli:message>
 ------=_Part_837529_22096737.1272429593698--
