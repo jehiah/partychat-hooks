@@ -5,11 +5,12 @@ import base64
 import logging
 import re
 from google.appengine.api import xmpp
+from tornado.escape import utf8 as _utf8
 
 def match_command(command, body):
     if command == '*' or \
         body.startswith(command) or \
-        re.findall('^\[[^\]]+\]\s%s' % re.escape(command), body):
+        re.findall('^\[[^\]]+\]\s%s' % re.escape(command), _utf8(body)):
         return True
     return False
 

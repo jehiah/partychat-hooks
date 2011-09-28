@@ -2,8 +2,9 @@ import functools
 import logging
 
 import tornado.web
-import tornado.escape
 import tornado.template
+from tornado.escape import json_decode
+from tornado.escape import utf8 as _utf8
 
 from google.appengine.api import users
 # from google.appengine.ext import db
@@ -52,7 +53,7 @@ class XMPPHandler(tornado.web.RequestHandler):
             if not receive_hook.active:
                 continue
             if lib.match_command(receive_hook.command, body):
-                data = urllib.urlencode({'from':from_addr, 'body': body, 'partychat-hook':jid.token, 'on-behalf-of':jid.user.nickname()})
+                data = urllib.urlencode({'from':from_addr, 'body': _utf8(body), 'partychat-hook':jid.token, 'on-behalf-of':_utf8(jid.user.nickname())})
                 try:
                     urlfetch.fetch(
                         receive_hook.endpoint,
@@ -200,7 +201,7 @@ class PostHook(BaseHandler):
         if not obj or not obj.active:
             raise tornado.web.HTTPError(404)
         
-        msg = self.render_string(obj.format, json_decode = tornado.escape.json_decode)
+        msg = self.render_string(obj.format, json_decode=json_decode)
         lib.send(obj.jid, msg)
         
         
