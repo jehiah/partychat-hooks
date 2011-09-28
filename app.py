@@ -185,7 +185,7 @@ class PostHook(BaseHandler):
         )
         args.update(self.ui)
         args.update(kwargs)
-        t = tornado.template.Template(format)
+        t = tornado.template.Template(format, autoescape=None)
         return t.generate(**args)
     
     def get(self, token):
