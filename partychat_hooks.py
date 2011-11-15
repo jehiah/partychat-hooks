@@ -10,7 +10,7 @@ class Application(tornado.wsgi.WSGIApplication):
     def __init__(self):
         app_settings = { 
             "template_path": os.path.join(os.path.dirname(__file__), "templates"),
-            "debug" : True,
+            "debug" : False,
             "autoescape" : None,
         }
         handlers = [
