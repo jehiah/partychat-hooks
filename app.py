@@ -123,6 +123,8 @@ class EditHook(BaseHandler):
         obj = lib.lookup_token(token)
         if not obj:
             raise tornado.web.HTTPError(404)
+        if obj.user != self.current_user:
+            raise tornado.web.HTTPError(404)
         self.render('edit.html', jid=obj)
     
     @authenticated
