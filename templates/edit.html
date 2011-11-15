@@ -34,7 +34,13 @@ code{
     <p><a href="/">All My Hooks</a></p>
     <p>
         Created: {{escape(jid.created.strftime("%Y/%m/%d"))}}<br/>
-        JID: {{escape(jid.jid)}}<br/>
+        JID: {{escape(jid.jid)}}
+        {% if jid.jid.endswith("partychapp.appspotchat.com") %}
+            <form method="POST" action="/edit/{{escape(jid.token)}}">
+                <button type="submit" name="action.partychat_migration" value="1">migrate to im.partych.at</button> see <a href="http://partych.at/migration.html">http://partych.at/migration.html</a> for more information.
+            </form>
+        {% end %}
+        <br/>
         HOOK ID: <span class="bot">{{escape(jid.token)}}@partychat-hooks.appspotchat.com</span><br/>
         <em>(invite this hook to your chat room)</em><br/>
     </p>
