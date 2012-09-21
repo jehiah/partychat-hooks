@@ -140,7 +140,7 @@ class EditHook(BaseHandler):
                 lib.send(obj, '/alias %s' % alias)
 
         elif self.get_argument('action.partychat_migration', None):
-            obj.jid = obj.jid.replace('im.partych.at', 'at.partych.at')
+            obj.jid = obj.jid.replace('at.partych.at', 'im.partych.at')
             obj.put()
         
         elif self.get_argument('action.new_post_hook', None):
