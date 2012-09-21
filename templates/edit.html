@@ -35,9 +35,9 @@ code{
     <p>
         Created: {{escape(jid.created.strftime("%Y/%m/%d"))}}<br/>
         JID: {{escape(jid.jid)}}
-        {% if jid.jid.endswith("partychapp.appspotchat.com") %}
+        {% if jid.jid.endswith("im.partych.at") %}
             <form method="POST" action="/edit/{{escape(jid.token)}}">
-                <button type="submit" name="action.partychat_migration" value="1">migrate to im.partych.at</button> see <a href="http://partych.at/migration.html">http://partych.at/migration.html</a> for more information.
+                <button type="submit" name="action.partychat_migration" value="1">migrate to at.partych.at</button> see <a href="https://twitter.com/partychat/status/249032266058178561">more info</a>.
             </form>
         {% end %}
         <br/>
